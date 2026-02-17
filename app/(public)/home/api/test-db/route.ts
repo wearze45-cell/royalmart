@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "@/app/lib/mongodb";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    await connectDB();
+    // Test PostgreSQL connection via Prisma
+    const productCount = await prisma.product.count();
 
-    console.log("✅ MongoDB Connected");
+    console.log("✅ PostgreSQL Connected via Prisma");
 
     return NextResponse.json({
       success: true,

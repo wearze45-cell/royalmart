@@ -21,8 +21,7 @@ model Product {
   stock       Int?
   sku         String?
   active      Boolean  @default(true)
-
-  orders      Order[]
+  createdAt   DateTime @default(now())
 }
 
 model Order {
