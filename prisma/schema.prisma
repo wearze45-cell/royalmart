@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+//////////////////////////////////////////////////
+// PRODUCT
+//////////////////////////////////////////////////
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  category    String
+  description String?
+  image       String?
+  price       Int?
+  offer       Int?
+  stock       Int?
+  sku         String?
+  active      Boolean  @default(true)
+
+  orders      Order[]
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  customer  String
+  phone     String
+  address   String
+  status    String   @default("Pending")
+  createdAt DateTime @default(now())
+}
+
+//////////////////////////////////////////////////
+// FILTER GROUP
+//////////////////////////////////////////////////
+
+model FilterGroup {
+  id        Int            @id @default(autoincrement())
+  name      String         @unique
+  options   FilterOption[]
+  createdAt DateTime       @default(now())
+}
+
+//////////////////////////////////////////////////
+// FILTER OPTION
+//////////////////////////////////////////////////
+
+model FilterOption {
+  id        Int      @id @default(autoincrement())
+  name      String
+  groupId   Int
+  group     FilterGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
